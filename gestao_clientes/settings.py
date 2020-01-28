@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-import django_heroku
 from decouple import config
 from dj_database_url import parse as dburl
 
@@ -28,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['gestao-clientes2.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['django2-gestao-clientes.herokuapp.com', 'localhost']
 
 INTERNAL_IPS = ['127.0.0.1']
 
@@ -188,5 +187,5 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 
 # Configure Django App for Heroku.
-
+import django_heroku
 django_heroku.settings(locals())

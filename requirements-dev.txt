@@ -16,4 +16,3 @@ six==1.11.0
 static3==0.7.0
 django-allauth
 django-heroku
-gunicorn
