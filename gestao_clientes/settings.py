@@ -117,7 +117,8 @@ DATABASES = {
     'default': config('DATABASE_URL', default=default_dburl, cast=dburl),
 }
 
-DATABASES.update(default=default_dburl)
+config['DATABASES']['default'] = dj_database_url.config(conn_max_age=MAX_CONN_AGE, ssl_require=False)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
