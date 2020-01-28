@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 
 import dj_database_url
+import django_heroku
 from decouple import config
 from dj_database_url import parse as dburl
 
@@ -117,9 +118,6 @@ DATABASES = {
     'default': config('DATABASE_URL', default=default_dburl, cast=dburl),
 }
 
-config['DATABASES']['default'] = dj_database_url.config(conn_max_age=MAX_CONN_AGE, ssl_require=False)
-
-
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
@@ -194,5 +192,5 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 
 # Configure Django App for Heroku.
-import django_heroku
-django_heroku.settings(locals())
+
+django_heroku.settings(locals(), logging=not DEBUG, databases=not DEBUG)
