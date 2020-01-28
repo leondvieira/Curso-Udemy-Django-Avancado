@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.mail import send_mail, mail_admins, send_mass_mail
+from django.template.loader import render_to_string
 
 
 class Documento(models.Model):
@@ -17,25 +19,43 @@ class Person(models.Model):
     photo = models.ImageField(upload_to='clients_photos', null=True, blank=True)
     doc = models.OneToOneField(Documento, null=True, blank=True, on_delete=models.CASCADE)
 
-    def __str__(self):
+    class Meta:
+        permissions = (
+            ('deletar_clientes', 'Deletar Clientes'),
+        )
+
+    @property
+    def nome_completo(self):
         return self.first_name + ' ' + self.last_name
 
+    def save(self, *args, **kwargs):
+        super(Person, self).save(*args, **kwargs)
 
-class Produto(models.Model):
-    descricao = models.CharField(max_length=100)
-    preco = models.DecimalField(max_digits=5, decimal_places=2)
+        data = {'cliente': self.first_name}
+        plain_text = render_to_string('clientes/emails/novo_cliente.txt', data)
+        html_email = render_to_string('clientes/emails/novo_cliente.html', data)
+
+        send_mail(
+            'Novo cliente cadastrado!',
+            plain_text,
+            'smtp.gmail.com',
+            ['vieira.leonardoadriano@gmail.com'],
+            html_message=html_email,
+            fail_silently=False,
+        )
+
+        mail_admins(
+            'Novo cliente cadastrado',
+            plain_text,
+            html_message=html_email,
+            fail_silently=False
+        )
+
+        message1 = (
+        'Subject here', 'Here is the message', 'vieira.leonardoadriano@gmail.com', ['vieira.leonardoadriano@gmail.com'])
+        message2 = ('Another Subject', 'Here is another message', 'vieira.leonardoadriano@gmail.com', ['vieira.leonardoadriano@gmail.com'])
+        send_mass_mail((message1, message2), fail_silently=False)
+
 
     def __str__(self):
-        return self.descricao
-
-
-class Venda(models.Model):
-    numero = models.CharField(max_length=7)
-    valor = models.DecimalField(max_digits=5, decimal_places=2)
-    desconto = models.DecimalField(max_digits=5, decimal_places=2)
-    impostos = models.DecimalField(max_digits=5, decimal_places=2)
-    pessoa = models.ForeignKey(Person, null=True, blank=True, on_delete=models.PROTECT)
-    produtos = models.ManyToManyField(Produto, blank=True)
-
-    def __str__(self):
-        return self.numero
+        return self.first_name + ' ' + self.last_name
