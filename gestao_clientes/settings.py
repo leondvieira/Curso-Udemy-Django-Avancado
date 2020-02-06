@@ -43,6 +43,9 @@ ADMINS = [('admin', 'vieira.leonardoadriano@gmail.com')]
 # Application definition
 
 INSTALLED_APPS = [
+    # 'grappelli',
+    # 'suit',
+    #'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sites',
@@ -185,11 +188,11 @@ STATIC_URL = '/static/'
 # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = '587'
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = '587'
+# EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+# EMAIL_USE_TLS = True
 
 # Configure Django App for Heroku.
 

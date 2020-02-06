@@ -4,3 +4,6 @@
 .DS_Store
 media
 .env
+staticfiles
+statics
+venv
